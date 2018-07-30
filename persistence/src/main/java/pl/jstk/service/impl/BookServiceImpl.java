@@ -4,6 +4,7 @@ package pl.jstk.service.impl;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import pl.jstk.entity.BookEntity;
 import pl.jstk.mapper.BookMapper;
 import pl.jstk.repository.BookRepository;
@@ -60,4 +61,7 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
 
     }
+
+
+
 }
