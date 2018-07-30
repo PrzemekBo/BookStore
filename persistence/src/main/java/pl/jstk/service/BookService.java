@@ -6,6 +6,7 @@ import pl.jstk.to.BookTo;
 
 public interface BookService {
 
+    BookTo findBookById(Long id);
     List<BookTo> findAllBooks();
     List<BookTo> findBooksByTitle(String title);
     List<BookTo> findBooksByAuthor(String author);
