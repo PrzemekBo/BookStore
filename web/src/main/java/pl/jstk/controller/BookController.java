@@ -13,6 +13,7 @@ import pl.jstk.service.BookService;
 import pl.jstk.service.impl.BookServiceImpl;
 import pl.jstk.to.BookTo;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
@@ -84,6 +85,7 @@ public class BookController {
         return "book";
     }
 
+
     @GetMapping("/books/add")
     public String addBook(Model model) {
         model.addAttribute("newBook", new BookTo());
@@ -96,18 +98,106 @@ public class BookController {
         return getBooks(model);
     }
 
-
     @GetMapping("/books/remove/{bookId}")
     public String removeBookById(@RequestParam("id") Long bookId, Model model) {
         bookService.deleteBook(bookId);
-        model.addAttribute("bookRemoved", "Book was successfully removed.");
+        model.addAttribute("bookRemoved", "You remove the book");
         return getBooks(model);
     }
 
+/*    @GetMapping("/find/{bookId}")
+    public String getBookByParam(@RequestParam("id")String title, String author, Model model) {
+        model.addAttribute("find", bookService.findBookByTitleAndAuthor(title,author));
+        return "book";
+    }*/
+
+/*    @GetMapping("/books/find")
+    public String findBook(Model model) {
+        model.addAttribute("newBook", new BookTo());
+        return "find";
+    }
+
+    @PostMapping("/books/find")
+    public String find() {
+
+        return "find";
+    }
+
+    */
+
+
+    @GetMapping(value = "/books/search")
+    public String searchBook(Model model) {
+        model.addAttribute("searchBook", new BookTo());
+        return "search";
+    }
+
+
+    @GetMapping(value = "/foundBooks")
+    public String getSearchResult(@RequestParam("authors") String author, @RequestParam("title") String title,
+                                  Model model) {
+
+        if(bookService.findBookByTitleAndAuthor(title, author).isEmpty()){
+            return "bookNotExists";
+        }
+        else
+        {
+            model.addAttribute("searchBookList", bookService.findBookByTitleAndAuthor(title, author));
+
+            return "searchResult";}
+    }
+/*
+//toDo
+    @GetMapping(value = "/books/search")
+    public String searchBook(Model model) {
+        model.addAttribute("searchBook", new BookTo());
+        return "search";
+    }
+//TODO
+    @GetMapping("/findBook")
+    public String getSearchResult(@RequestParam("authors") String author, @RequestParam("title") String title, Model model) {
+        model.addAttribute("searchBookList", bookService.findBookByTitleAndAuthor(title, author));
+        return "find";
+    }
+
+    @GetMapping("/books/find")
+    public String findBook(Model model) {
+        model.addAttribute("newBook", new BookTo());
+        return "findBook";
+    }
+
+    @PostMapping("/books/find")
+    public String find() {
+
+        return "findBook";
+    }
+*/
 
 
 
 
 
-}
+
+
+
+
+/*    @RequestMapping(value = "/books/add", method = RequestMethod.POST)
+    public ModelAndView addBook(@ModelAttribute("newBook") BookTo newBook) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (newBook.getTitle() != null && newBook.getAuthors() != null) {
+            modelAndView.addObject("newBook", bookService.saveBook(newBook));
+        }
+        modelAndView.setViewName(ViewNames.ADD_BOOK);
+        return modelAndView;
+    }
+
+    @RequestMapping("/greeting")
+    public String addBook2(Model model) {
+        model.addAttribute("newBook", new BookTo());
+        return ViewNames.ADD_BOOK;
+    }*/
+
+
+    }
 

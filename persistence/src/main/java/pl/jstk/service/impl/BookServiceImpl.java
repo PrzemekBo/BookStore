@@ -62,6 +62,11 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    @Override
+    public List<BookTo> findBookByTitleAndAuthor(String title, String author) {
+        return BookMapper.map2To(bookRepository.findBookByTitleAndAuthor(title, author));
+    }
+
 
 
 }
