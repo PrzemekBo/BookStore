@@ -2,19 +2,13 @@ package pl.jstk.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import pl.jstk.constants.ViewNames;
-import pl.jstk.mapper.BookMapper;
-import pl.jstk.repository.BookRepository;
 import pl.jstk.service.BookService;
-import pl.jstk.service.impl.BookServiceImpl;
 import pl.jstk.to.BookTo;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
 
 @Controller
 public class BookController {
@@ -97,7 +91,7 @@ public class BookController {
         bookService.saveBook(book);
         return getBooks(model);
     }
-
+    @Secured("ROLE_ADMIN")
     @GetMapping("/books/remove/{bookId}")
     public String removeBookById(@RequestParam("id") Long bookId, Model model) {
         bookService.deleteBook(bookId);
@@ -126,26 +120,35 @@ public class BookController {
     */
 
 
-    @GetMapping(value = "/books/search")
-    public String searchBook(Model model) {
-        model.addAttribute("searchBook", new BookTo());
-        return "search";
+    @GetMapping(value = "/books/find")
+    public String findBook(Model model) {
+        model.addAttribute("findBook", new BookTo());
+        return "find";
     }
 
 
     @GetMapping(value = "/foundBooks")
-    public String getSearchResult(@RequestParam("authors") String author, @RequestParam("title") String title,
-                                  Model model) {
+    public String getFindResult(@RequestParam("authors") String author,
+                                @RequestParam("title") String title,
+                                Model model) {
 
         if(bookService.findBookByTitleAndAuthor(title, author).isEmpty()){
-            return "bookNotExists";
+            return "thisBookDontExist";
         }
         else
         {
-            model.addAttribute("searchBookList", bookService.findBookByTitleAndAuthor(title, author));
+            model.addAttribute("findBookList", bookService.findBookByTitleAndAuthor(title, author));
 
-            return "searchResult";}
+            return "finded";}
     }
+
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public String handleException(Model model) {
+        model.addAttribute("error", "You can not delete the book");
+        return "403";
+    }
+
 /*
 //toDo
     @GetMapping(value = "/books/search")
