@@ -12,6 +12,13 @@
             <div class="container">
                 <h1>Error</h1>
                 <p th:text="${error}"></p>
+
+                <p>
+                    <a th:href="@{'/books'}" class="btn btn-default">
+                        <span class="glyphicon-hand-left glyphicon"></span> back
+                    </a>
+
+                </p>
             </div>
         </div>
     </section>

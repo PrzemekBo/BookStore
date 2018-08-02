@@ -19,53 +19,7 @@ public class BookController {
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
-/*
-    @RequestMapping
-    public ModelAndView allBooks() {
-        ModelAndView mav = new ModelAndView();
-       // modelAndView.setViewName(ViewNames.BOOKS);
-      //  modelAndView.addObject("searchedBook", new BookTo());
-        mav.addObject("bookList", bookService.findAllBooks());
-        return mav;
-    }
 
-
-    @RequestMapping("/book")
-    public ModelAndView bookByID(@RequestParam("id") Long id){
-        ModelAndView mav= new ModelAndView();
-        mav.addObject("book",bookService.findBookById(id));
-        return mav;
-    }
- */
-/*   @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView add(@RequestParam("newBook")BookTo newBook){
-        ModelAndView mav= new ModelAndView();
-
-        if (newBook.getTitle()!=null&&newBook.getTitle()!=null){
-            mav.addObject("newBook",bookService.saveBook(newBook));
-        }
-        return mav;
-
-    }*//*
-
-
-    @RequestMapping(value = "/greeting", method = RequestMethod.POST)
-    public ModelAndView addBook(@ModelAttribute("greeting") BookTo newBook) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (newBook.getTitle() != null && newBook.getAuthors() != null) {
-            modelAndView.addObject("greeting", bookService.saveBook(newBook));
-        }
-       // modelAndView.setViewName(ViewNames.ADDED);
-        return modelAndView;
-    }
-
-*/
-/*    @RequestMapping("/add")
-    public String addBook2(Model model) {
-        model.addAttribute("newBook", new BookTo());
-        return ViewNames.ADD_BOOK;
-    }*/
 
     @GetMapping("/books")
     public String getBooks(Model model) {
@@ -99,26 +53,6 @@ public class BookController {
         return getBooks(model);
     }
 
-/*    @GetMapping("/find/{bookId}")
-    public String getBookByParam(@RequestParam("id")String title, String author, Model model) {
-        model.addAttribute("find", bookService.findBookByTitleAndAuthor(title,author));
-        return "book";
-    }*/
-
-/*    @GetMapping("/books/find")
-    public String findBook(Model model) {
-        model.addAttribute("newBook", new BookTo());
-        return "find";
-    }
-
-    @PostMapping("/books/find")
-    public String find() {
-
-        return "find";
-    }
-
-    */
-
 
     @GetMapping(value = "/books/find")
     public String findBook(Model model) {
@@ -145,61 +79,10 @@ public class BookController {
 
     @ExceptionHandler({AccessDeniedException.class})
     public String handleException(Model model) {
-        model.addAttribute("error", "You can not delete the book");
+        model.addAttribute("error", "Access denied, normal user cannot remove books");
         return "403";
     }
 
-/*
-//toDo
-    @GetMapping(value = "/books/search")
-    public String searchBook(Model model) {
-        model.addAttribute("searchBook", new BookTo());
-        return "search";
-    }
-//TODO
-    @GetMapping("/findBook")
-    public String getSearchResult(@RequestParam("authors") String author, @RequestParam("title") String title, Model model) {
-        model.addAttribute("searchBookList", bookService.findBookByTitleAndAuthor(title, author));
-        return "find";
-    }
-
-    @GetMapping("/books/find")
-    public String findBook(Model model) {
-        model.addAttribute("newBook", new BookTo());
-        return "findBook";
-    }
-
-    @PostMapping("/books/find")
-    public String find() {
-
-        return "findBook";
-    }
-*/
-
-
-
-
-
-
-
-
-
-/*    @RequestMapping(value = "/books/add", method = RequestMethod.POST)
-    public ModelAndView addBook(@ModelAttribute("newBook") BookTo newBook) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (newBook.getTitle() != null && newBook.getAuthors() != null) {
-            modelAndView.addObject("newBook", bookService.saveBook(newBook));
-        }
-        modelAndView.setViewName(ViewNames.ADD_BOOK);
-        return modelAndView;
-    }
-
-    @RequestMapping("/greeting")
-    public String addBook2(Model model) {
-        model.addAttribute("newBook", new BookTo());
-        return ViewNames.ADD_BOOK;
-    }*/
 
 
     }

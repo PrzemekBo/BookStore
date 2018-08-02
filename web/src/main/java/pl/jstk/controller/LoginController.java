@@ -24,13 +24,5 @@ public class LoginController {
         return ViewNames.LOGIN;
     }
 
- /*   @ResponseStatus
-    @ExceptionHandler({AccessDeniedException.class})
-    public String handleException(Model model) {
-        model.addAttribute("error", "Access denied, normal user cannot remove books");
-        return "403";
-    }
-*/
-
 
 }
