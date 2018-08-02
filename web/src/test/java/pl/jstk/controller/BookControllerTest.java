@@ -122,23 +122,6 @@ public class BookControllerTest {
         verifyNoMoreInteractions(bookServiceMock);
     }
 
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN", "USER"})
-    public void shouldAddBook() throws Exception {
-        //given
-        BookTo book = new BookTo();
-        book.setId(6L);
-
-        //when
-        when(bookServiceMock.saveBook(book)).thenReturn(book);
-        ResultActions resultActions = mockMvc.perform(post("/greeting").with(user("admin")).flashAttr("newBook", book));
-
-        //then
-        resultActions.andExpect(status().isOk())
-                .andExpect(view().name("welcome"))
-                .andExpect(model().attribute("bookAdded", "Book was successfully added"))
-                .andExpect(model().attribute("book", book));
-    }
 
 
     @Test
@@ -162,37 +145,13 @@ public class BookControllerTest {
         long id = 1;
         books.add(new BookTo());
 
-        //when
-        //when(bookServiceMock.deleteBook(id)).thenReturn(books.get(0));
+
         ResultActions resultActions = mockMvc.perform(delete("books/remove/bookId").param("id", "1"));
 
         //then
         resultActions.andExpect(status().isForbidden());
-              /*  .andExpect(view().name("books"))
-                .andExpect(model().attribute("bookRemoved", "Book was successfully removed."));*/
+
     }
-
-
-
-/*
-    @Test
-    @WithMockUser(username = "user", roles = "USER")
-    public void testSearchPagePost() throws Exception {
-        // when
-        ResultActions resultActions = mockMvc.perform(get("/books"));
-        // then
-        resultActions.andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser(username = "admin", roles = "ADMIN")
-    public void testSearchPagedPost() throws Exception {
-        // when
-        ResultActions resultActions = mockMvc.perform(get("/greeting"));
-        // then
-        resultActions.andExpect(status().isMethodNotAllowed());
-    }
-*/
 
 
     @Test
